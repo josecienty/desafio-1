@@ -43,8 +43,14 @@ class CaracteristicasController extends Controller
      */
     public function show(int $id): JsonResponse
     {
+        $result = Caracteristicas::where('id', $id)->first();
+        if (!$result) {
+            return $this->makeResponse([
+                'message' => 'Caracteristica no encontrada'
+            ], 404);
+        }
         return $this->makeResponse([
-            'data' => Caracteristicas::where('id', $id)->first()
+            'data' => $result
         ]);
     }
 }

@@ -44,8 +44,14 @@ class DepartamentoController extends Controller
      */
     public function show(int $id): JsonResponse
     {
+        $result = Departamentos::where('id', $id)->first();
+        if (!$result) {
+            return $this->makeResponse([
+                'message' => 'Departamento no encontrado'
+            ], 404);
+        }
         return $this->makeResponse([
-            'data' => Departamentos::where('id', $id)->first()
+            'data' => $result
         ]);
     }
 }

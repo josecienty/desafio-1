@@ -44,8 +44,14 @@ class ManzanaController extends Controller
      */
     public function show(int $id): JsonResponse
     {
+        $result = Manzana::where('id', $id)->first();
+        if (!$result) {
+            return $this->makeResponse([
+                'message' => 'Manzana no encontrada'
+            ], 404);
+        }
         return $this->makeResponse([
-            'data' => Manzana::where('id', $id)->first()
+            'data' => $result
         ]);
     }
 }

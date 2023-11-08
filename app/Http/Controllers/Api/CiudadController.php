@@ -43,8 +43,14 @@ class CiudadController extends Controller
      */
     public function show(int $id): JsonResponse
     {
+        $result =  Ciudades::where('id', $id)->first();
+        if (!$result) {
+            return $this->makeResponse([
+                'message' => 'Ciudad no encontrada'
+            ], 404);
+        }
         return $this->makeResponse([
-            'data' => Ciudades::where('id', $id)->first()
+            'data' => $result
         ]);
     }
 }
