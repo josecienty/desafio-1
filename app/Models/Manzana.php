@@ -16,4 +16,13 @@ class Manzana extends Model
         'ciudad_id',
         'estado'
     ];
+
+    protected $with = [
+        'ciudad'
+    ];
+
+    public function ciudad()
+    {
+        return $this->belongsTo(Ciudades::class);
+    }
 }

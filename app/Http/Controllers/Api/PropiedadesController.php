@@ -14,18 +14,143 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use App\Documentation\Propiedades\Get;
+use Illuminate\Support\Facades\Log;
 
 class PropiedadesController extends Controller
 {
-    public function index(): Collection
+    /**
+     * @OA\Info(
+     *     version="1.0",
+     *     title="Documentación Desafio 1 Idesa",
+     *      description="Desafio 1 - CRUD de propiedades ('inmobiliarias') con sus respectivas FK"
+     * )
+     * @OA\PathItem(path="/api/propiedades")
+     *
+     * @OAS\SecurityScheme(
+     *      securityScheme="bearer_token",
+     *      type="http",
+     *      scheme="bearer"
+     * )
+     * @OA\Get(
+     *     path="/api/propiedades",
+     *     summary="Obtener una colección de propiedades",
+     *     description="Obtiene una colección de propiedades que coinciden con los criterios de búsqueda.",
+     *     tags={"Propiedades"},
+     *  security={{"bearer_token":{}}},
+     *     @OA\Parameter(
+     *         name="buscar",
+     *         in="query",
+     *         description="Término de búsqueda",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="pageSize",
+     *         in="query",
+     *         description="Tamaño de página",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         description="Pagina",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *     response="200",
+     *     description="Lista de propiedades",
+     *     @OA\JsonContent(
+     *         @OA\Property(property="current_page", type="integer"),
+     *         @OA\Property(property="data", type="array",
+     *             @OA\Items(
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="nombre", type="string"),
+     *                 @OA\Property(property="cuota_desde", type="integer"),
+     *                 @OA\Property(property="superficie", type="number"),
+     *                 @OA\Property(property="longitud", type="string"),
+     *                 @OA\Property(property="latitud", type="string"),
+     *                 @OA\Property(property="manzana_id", type="integer"),
+     *                 @OA\Property(property="propiedad_estado_id", type="integer")
+     *             )
+     *         ),
+     *         @OA\Property(property="first_page_url", type="string"),
+     *         @OA\Property(property="from", type="integer"),
+     *         @OA\Property(property="last_page", type="integer"),
+     *         @OA\Property(property="last_page_url", type="string"),
+     *         @OA\Property(property="links", type="array",
+     *             @OA\Items(
+     *                 @OA\Property(property="url", type="string"),
+     *                 @OA\Property(property="label", type="string"),
+     *                 @OA\Property(property="active", type="boolean")
+     *             )
+     *         ),
+     *         @OA\Property(property="next_page_url", type="string"),
+     *         @OA\Property(property="path", type="string"),
+     *         @OA\Property(property="per_page", type="integer"),
+     *         @OA\Property(property="prev_page_url", type="string"),
+     *         @OA\Property(property="to", type="integer"),
+     *         @OA\Property(property="total", type="integer")
+     *     )
+     *     )
+     *     )
+     * )
+     */
+
+    public function index(Request $request): Collection
     {
+        $buscar = $request->get('buscar', '');
+        $page_size = $request->get('pageSize', 10);
+
         $result = Propiedades::latest()
             ->with('caracteristicas:id,caracteristica', 'manzana')
-            ->paginate(10);
+            ->where('nombre', 'LIKE', '%' . trim($buscar) . '%')
+            ->paginate($page_size);
 
         return Collection::make($result);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/propiedades",
+     *     summary="Crear una nueva propiedad",
+     *     description="Crea una nueva propiedad con los datos proporcionados en el JSON.",
+     *     tags={"Propiedades"},
+     *      security={{"bearer_token":{}}},
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="nombre", type="string"),
+     *             @OA\Property(property="cuota_desde", type="integer"),
+     *             @OA\Property(property="superficie", type="number"),
+     *             @OA\Property(property="latitud", type="number"),
+     *             @OA\Property(property="longitud", type="number"),
+     *             @OA\Property(property="manzana", type="object",
+     *                 @OA\Property(property="nombre", type="string"),
+     *                 @OA\Property(property="ciudad_id", type="integer"),
+     *             ),
+     *             @OA\Property(property="caracteristicas", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="titulo", type="string"),
+     *                 ),
+     *             ),
+     *             @OA\Property(property="propiedad_estado_id", type="integer"),
+     *         ),
+     *     ),
+     *     @OA\Response(response="200", description="Registro exitoso de propiedad", @OA\JsonContent(
+     *         @OA\Property(property="message", type="string"),
+     *         @OA\Property(property="data", type="object"),
+     *     )),
+     *     @OA\Response(response="422", description="Error en la solicitud", @OA\JsonContent(
+     *         @OA\Property(property="message", type="string"),
+     *         @OA\Property(property="error", type="string"),
+     *     )),
+     * )
+     */
     public function store(Request $request): JsonResponse
     {
         DB::beginTransaction();
@@ -60,6 +185,51 @@ class PropiedadesController extends Controller
         }
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/propiedades/{propiedad_id}",
+     *     summary="Actualizar una propiedad",
+     *     description="Actualiza una propiedad existente con los datos proporcionados en el JSON.",
+     *     tags={"Propiedades"},
+     *     @OA\Parameter(
+     *         name="propiedad_id",
+     *         in="path",
+     *         description="ID de la propiedad a actualizar",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="nombre", type="string"),
+     *             @OA\Property(property="cuota_desde", type="integer"),
+     *             @OA\Property(property="superficie", type="number"),
+     *             @OA\Property(property="latitud", type="number"),
+     *             @OA\Property(property="longitud", type="number"),
+     *             @OA\Property(property="manzana", type="object",
+     *                 @OA\Property(property="nombre", type="string"),
+     *                 @OA\Property(property="ciudad_id", type="integer"),
+     *             ),
+     *             @OA\Property(property="caracteristicas", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="titulo", type="string"),
+     *                 ),
+     *             ),
+     *             @OA\Property(property="propiedad_estado_id", type="integer"),
+     *         ),
+     *     ),
+     *     @OA\Response(response="200", description="Registro modificado con éxito", @OA\JsonContent(
+     *         @OA\Property(property="message", type="string"),
+     *         @OA\Property(property="data", type="object"),
+     *     )),
+     *     @OA\Response(response="422", description="Error en la solicitud", @OA\JsonContent(
+     *         @OA\Property(property="message", type="string"),
+     *         @OA\Property(property="error", type="string"),
+     *     )),
+     *     security={{"bearer_token": {}}}
+     * )
+     */
     public function update(Request $request, int $id): JsonResponse
     {
 
@@ -98,6 +268,32 @@ class PropiedadesController extends Controller
         }
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/propiedades/{propiedad_id}",
+     *     summary="Eliminar una propiedad",
+     *     description="Elimina una propiedad por su ID.",
+     *     tags={"Propiedades"},
+     *     @OA\Parameter(
+     *         name="propiedad_id",
+     *         in="path",
+     *         description="ID de la propiedad a eliminar",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response="204", description="La propiedad fue eliminada exitosamente."),
+     *     @OA\Response(response="404", description="Propiedad no encontrada", @OA\JsonContent(
+     *         @OA\Property(property="message", type="string"),
+     *     )),
+     *     @OA\Response(response="409", description="No se puede completar la operación de eliminación debido a dependencias", @OA\JsonContent(
+     *         @OA\Property(property="message", type="string"),
+     *     )),
+     *     @OA\Response(response="500", description="Error interno del servidor", @OA\JsonContent(
+     *         @OA\Property(property="message", type="string"),
+     *     )),
+     *     security={{"bearer_token": {}}}
+     * )
+     */
     public function destroy(int $id): JsonResponse|Response
     {
         try {
@@ -124,9 +320,33 @@ class PropiedadesController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/propiedades/{propiedad_id}",
+     *     summary="Obtener detalles de una propiedad",
+     *     description="Obtiene los detalles de una propiedad por su ID.",
+     *     tags={"Propiedades"},
+     *     @OA\Parameter(
+     *         name="propiedad_id",
+     *         in="path",
+     *         description="ID de la propiedad a obtener",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response="200", description="Detalles de la propiedad", @OA\JsonContent(
+     *         @OA\Property(property="data", type="object"),
+     *     )),
+     *     @OA\Response(response="404", description="Propiedad no encontrada", @OA\JsonContent(
+     *         @OA\Property(property="message", type="string"),
+     *     )),
+     *     security={{"bearer_token": {}}}
+     * )
+     */
     public function show(int $id): JsonResponse
     {
-        $result = Propiedades::find($id);
+        $result = Propiedades::where('id', $id)
+            ->with('caracteristicas:id,caracteristica', 'manzana')
+            ->first();
 
         if (!$result) {
             return $this->makeResponse([
@@ -136,8 +356,7 @@ class PropiedadesController extends Controller
 
         return $this->makeResponse([
             'data' => $result
-                ->with('caracteristicas:id,caracteristica', 'manzana')
-                ->first()
+
         ]);
     }
 

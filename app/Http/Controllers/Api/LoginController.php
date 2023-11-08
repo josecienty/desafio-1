@@ -9,6 +9,37 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="Iniciar sesión",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="email", type="string", format="email", description="Correo electrónico del usuario"),
+     *                 @OA\Property(property="password", type="string", description="Contraseña del usuario"),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Inicio de sesión exitoso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="token", type="string", description="Token de acceso para futuras solicitudes"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         description="Credenciales no válidas",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Mensaje de error"),
+     *         )
+     *     ),
+     * )
+     */
     public function login(Request $request): JsonResponse
     {
         //? 1- Validación

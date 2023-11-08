@@ -10,4 +10,13 @@ class Ciudades extends Model
     use HasFactory;
 
     protected $table = 'ciudades';
+
+    protected $with = [
+        'departamento'
+    ];
+
+    public function departamento()
+    {
+        return $this->belongsTo(Departamentos::class);
+    }
 }
