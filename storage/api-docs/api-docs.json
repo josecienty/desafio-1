@@ -248,6 +248,183 @@
                 ]
             }
         },
+        "/api/caracteristicas/{caracteristica_id}": {
+            "get": {
+                "tags": [
+                    "Caracteristicas"
+                ],
+                "summary": "Obtener detalles de una caracteristica",
+                "operationId": "941f092b9926062d2e15492a36c3855b",
+                "parameters": [
+                    {
+                        "name": "caracteristica_id",
+                        "in": "path",
+                        "description": "ID de la caracteristica",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de las caracteristica",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "caracteristica no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/ciudades/{ciudad_id}": {
+            "get": {
+                "tags": [
+                    "Ciudades"
+                ],
+                "summary": "Obtener detalles de una ciudad",
+                "operationId": "b7be8aedf693ccd60e574f790cb85c68",
+                "parameters": [
+                    {
+                        "name": "ciudad_id",
+                        "in": "path",
+                        "description": "ID de la ciudad",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de la ciudad",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ciudad no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/departamentos/{departamento_id}": {
+            "get": {
+                "tags": [
+                    "Departamentos"
+                ],
+                "summary": "Obtener detalles de un departamento",
+                "operationId": "bba880a0fed391f9f02ce8648e1314cb",
+                "parameters": [
+                    {
+                        "name": "departamento_id",
+                        "in": "path",
+                        "description": "ID del departamento",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del departamento",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Departamento no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
@@ -310,6 +487,65 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/manzanas/{manzana_id}": {
+            "get": {
+                "tags": [
+                    "Manzanas"
+                ],
+                "summary": "Obtener detalles de una manzana",
+                "operationId": "64c17df56adba82a717bf02fae99b361",
+                "parameters": [
+                    {
+                        "name": "manzana_id",
+                        "in": "path",
+                        "description": "ID de la manzana",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de la manzana",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "manzana no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
             }
         },
         "/api/propiedades/{propiedad_id}": {
