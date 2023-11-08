@@ -1,0 +1,383 @@
+{
+	"info": {
+		"_postman_id": "ed15c347-907c-4790-a6ee-b3f7529074e2",
+		"name": "Idesa",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23882943",
+		"_collection_link": "https://xnet-pagos.postman.co/workspace/Idesa~11871513-2af8-401f-a21b-06ddea833f60/collection/23882943-ed15c347-907c-4790-a6ee-b3f7529074e2?action=share&source=collection_link&creator=23882943"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "admin@idesa.com.py",
+									"description": "Email de prueba",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"description": "Contraseña de prueba",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Propiedades",
+			"item": [
+				{
+					"name": "Lista",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"host": true,
+							"user-agent": true,
+							"accept": true,
+							"accept-encoding": true,
+							"connection": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/propiedades",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"propiedades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Lomas de plata\",\n    \"cuota_desde\": 200000,\n    \"superficie\": 1203,\n    \"latitud\":-12.5034,\n    \"longitud\": -59.000,\n    \"manzana\":{\n        \"nombre\": \"Manzana 1\",\n        \"ciudad_id\": 5\n    },\n    \"caracteristicas\":[\n        {\n            \"titulo\": \"Lugar Confortable\"\n        },\n        {\n            \"titulo\": \"Vista Plena\"\n        }\n    ],\n    \"propiedad_estado_id\":1\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/propiedades",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"propiedades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Lote 5\",\n    \"cuota_desde\": 200000,\n    \"superficie\": 1203,\n    \"latitud\":-12.5034,\n    \"longitud\": -59.000,\n    \"manzana\":{\n        \"nombre\": \"Manzana 1\",\n        \"ciudad_id\": 5\n    },\n    \"caracteristicas\":[\n        {\n            \"titulo\": \"Lugar Confortable\"\n        },\n        {\n            \"titulo\": \"Vista Plena\"\n        }\n    ],\n    \"propiedad_estado_id\":1\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/propiedades/5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"propiedades",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/propiedades/5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"propiedades",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ver",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/propiedades/5",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"propiedades",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fks",
+			"item": [
+				{
+					"name": "Ciudades",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/ciudades/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"ciudades",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Caracteristicas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/caracteristicas/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"caracteristicas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Departamentos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/departamentos/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"departamentos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Manzana",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/manzanas/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"manzanas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Version",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
