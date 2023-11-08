@@ -60,6 +60,15 @@ password: admin
 
 Copiar el Token dentro de la variable token de postman (token) o dentro de el Boton de Autenticación de la [documentación](http://localhost:8000/api/documentation)
 
+## Descripción
+Cargador de propiedades basada en la web actual, utilizando ciertas estructuras básicas.
+
+### Foreign Keys
+- Caracteristicas
+- Manzana (Cuadra)
+- Ciudad
+- Departamento
+
 ## License
 
 Laravel es Open Source [MIT license](https://opensource.org/licenses/MIT).
