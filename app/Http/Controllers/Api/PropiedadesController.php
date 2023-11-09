@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Documentation\Propiedades\Get;
+use App\Http\Requests\PropiedadesRequest;
 use Illuminate\Support\Facades\Log;
 
 class PropiedadesController extends Controller
@@ -151,7 +152,7 @@ class PropiedadesController extends Controller
      *     )),
      * )
      */
-    public function store(Request $request): JsonResponse
+    public function store(PropiedadesRequest $request): JsonResponse
     {
         DB::beginTransaction();
         try {
@@ -230,7 +231,7 @@ class PropiedadesController extends Controller
      *     security={{"bearer_token": {}}}
      * )
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(PropiedadesRequest $request, int $id): JsonResponse
     {
 
         DB::beginTransaction();
@@ -365,7 +366,7 @@ class PropiedadesController extends Controller
         //Formatear manzana "registrar si es necesario, si no solo devolvera el valor"
         $input = $request->all();
 
-        if (array_column($input, 'manzana_id')) {
+        if (array_key_exists('manzana_id', $input)) {
             return $input;
         }
 
