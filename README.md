@@ -61,7 +61,60 @@ password: admin
 Copiar el Token dentro de la variable token de postman (token) o dentro de el Boton de Autenticación de la [documentación](http://localhost:8000/api/documentation)
 
 ## Descripción
-Cargador de propiedades basada en la web actual, utilizando ciertas estructuras básicas.
+Api para cargador de propiedades basada en la web actual, utilizando ciertas estructuras básicas.
+
+La api te hace registro de las claves foraneas de "Manzana y Caracteristicas", si no tienen las ids
+
+```bash
+{
+    "nombre": "Test",
+    "cuota_desde": 200000,
+    "superficie": 1203,
+    "latitud":-12.5034,
+    "longitud": -59.000,
+    "manzana":{
+        "nombre": "Manzana 1",
+        "ciudad_id": 5
+    },
+    "caracteristicas":[
+        {
+            "titulo": "Lugar Confortable"
+        },
+        {
+            "titulo": "Vista Plena"
+        }
+    ],
+    "propiedad_estado_id":1
+
+}
+
+```
+
+O en caso de que las tenga puede usarlas sin inconvenientes
+
+```bash
+{
+    "nombre": "Lomas de plata",
+    "cuota_desde": 200000,
+    "superficie": 1203,
+    "latitud":-12.5034,
+    "longitud": -59.000,
+    "manzana_id": 1,
+    "caracteristicas":[
+        {
+            "id": 1
+        },
+        {
+            "id": 2
+        }
+    ],
+    "propiedad_estado_id":1
+
+}
+```
+
+o mezclar los valores, es decir que manzana tenga id's foraneas y caracteristicas nuevas o viceversa.
+
 
 ### Foreign Keys
 - Caracteristicas

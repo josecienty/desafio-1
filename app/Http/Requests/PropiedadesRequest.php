@@ -32,7 +32,10 @@ class PropiedadesRequest extends FormRequest
             'manzana.ciudad_id' => $requiere_manzana ? 'nullable' : 'required|numeric',
 
             'caracteristicas' => 'array',
-            'caracteristicas.*.titulo' => 'required|string|min:3|max:125',
+            'caracteristicas.*.titulo' => 'required_without:caracteristicas.*.id|string|min:3|max:125',
+            'caracteristicas.*.id' => 'required_without:caracteristicas.*.titulo|nullable',
+
+            //'caracteristicas.*.titulo' => 'required|string|min:3|max:125',
             'propiedad_estado_id' => 'required|numeric'
         ];
     }
